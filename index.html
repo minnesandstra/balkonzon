@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffb000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Balkonzon">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>Zon op mijn balkon · actuele UV</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#17191d;--muted:#676d78;--line:#dfe3e8;--accent:#ffb000;--accent2:#ffe08a;--green:#227a4b;--red:#a13b2d;--shadow:0 8px 24px rgba(0,0,0,.07)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1160px;margin:0 auto;padding:calc(24px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left))}.hero{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}.hero h1{font-size:clamp(28px,4vw,44px);line-height:1.05;margin:0}.hero p{color:var(--muted);max-width:760px;margin:8px 0 0}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 11px;font-size:13px;white-space:nowrap}.dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.grid{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}.card h2{font-size:17px;margin:0 0 4px}.sub{font-size:13px;color:var(--muted);margin:0 0 16px}
+label{display:block;font-size:13px;margin-bottom:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}input,select,button{font:inherit}input[type=number],input[type=date],input[type=text],select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:#fff;color:var(--text)}input[type=range]{width:100%;margin:12px 0 4px}.direction{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}.dir,.primary,.ghost{border:1px solid var(--line);border-radius:12px;padding:10px 11px;background:#fff;cursor:pointer}.dir:hover,.ghost:hover{background:#f8f9fb}.primary{width:100%;border-color:#d99a00;background:var(--accent);font-weight:700}.primary:hover{filter:brightness(.98)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}.metric .k{font-size:12px;color:var(--muted)}.metric .v{font-size:28px;font-weight:760;letter-spacing:-.03em;margin-top:4px}.metric .s{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}.uvbadge{display:inline-block;border-radius:999px;padding:4px 8px;background:#f2f3f5;font-size:12px;margin-top:6px}
+.section{margin-top:14px}.sectionHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.timeline{height:46px;border:1px solid var(--line);border-radius:13px;position:relative;overflow:hidden;background:linear-gradient(to right,transparent 24.9%,var(--line) 25%,transparent 25.1%,transparent 49.9%,var(--line) 50%,transparent 50.1%,transparent 74.9%,var(--line) 75%,transparent 75.1%)}.sunbar{position:absolute;top:0;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}.ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin:5px 2px 0}.windows{display:flex;flex-direction:column;gap:8px}.window{display:flex;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:12px;padding:9px 11px;font-size:14px}.window span:last-child{color:var(--muted)}
+.callout{border-radius:14px;padding:12px 13px;background:#fff8df;border:1px solid #f3df9d;font-size:13px;line-height:1.45}.source{font-size:11px;color:var(--muted);line-height:1.5}.uvchart{height:145px;border:1px solid var(--line);border-radius:13px;padding:10px 8px 8px;display:flex;align-items:flex-end;gap:2px;overflow:hidden;background:#fff;position:relative}.uvbar{flex:1;min-width:3px;border-radius:3px 3px 0 0;background:linear-gradient(to top,#ffd45d,#ff9d00);position:relative}.uvbar.onbalcony{outline:2px solid rgba(23,25,29,.28);outline-offset:-1px}.status{font-size:12px;color:var(--muted)}.error{color:var(--red)}.ok{color:var(--green)}
+.addressbox{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px;background:#fbfcfd}.addressrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.addressrow input{margin-top:0}.addressrow button{white-space:nowrap}.addressResults{display:flex;flex-direction:column;gap:6px;margin-top:8px}.addressResult{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 10px;text-align:left;cursor:pointer;font-size:13px}.addressResult:hover{background:#f7f8fa}.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--muted)}.legend i{display:inline-block;width:16px;height:8px;border-radius:2px;background:linear-gradient(to right,#ffd45d,#ff9d00);margin-right:5px}.legend .bal i{outline:2px solid rgba(23,25,29,.28);outline-offset:-1px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.hero{flex-direction:column}}@media(max-width:520px){.wrap{padding:14px}.row{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.metric .v{font-size:24px}.direction{grid-template-columns:repeat(2,1fr)}.addressrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Wanneer heb ik zon op mijn balkon?</h1>
+      <p>Zoek je adres, stel de richting van je balkon in en bekijk wanneer er directe zon kan vallen. De UV-index komt per locatie uit Open‑Meteo/Copernicus CAMS en is ook voor vandaag beschikbaar.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button id="installApp" class="ghost" type="button" style="display:none">Installeer app</button><div class="pill"><span class="dot" id="sourceDot"></span><span id="dataState">UV-data laden…</span></div></div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Jouw balkon</h2><p class="sub">Adreszoeker: PDOK. De gevonden coördinaten worden direct gebruikt voor zon én UV.</p>
+      <div class="addressbox">
+        <label style="margin-bottom:8px">Adres</label>
+        <div class="addressrow">
+          <input id="address" type="text" autocomplete="street-address" placeholder="Bijv. Damrak 1, Amsterdam" aria-label="Adres">
+          <button id="searchAddress" class="ghost" type="button">Zoek adres</button>
+        </div>
+        <div id="addressStatus" class="status" style="margin-top:8px">Vul een Nederlands adres in.</div>
+        <div id="addressResults" class="addressResults"></div>
+      </div>
+
+      <div class="row">
+        <label>Breedtegraad<input id="lat" type="number" step="0.000001" value="52.367600"></label>
+        <label>Lengtegraad<input id="lon" type="number" step="0.000001" value="4.904100"></label>
+      </div>
+      <label>Datum<input id="date" type="date"></label>
+      <label>Balkonrichting <strong id="dirLabel">180° · Zuid</strong><input id="orientation" type="range" min="0" max="359" value="180"></label>
+      <div class="direction"><button class="dir" data-v="0">Noord</button><button class="dir" data-v="90">Oost</button><button class="dir" data-v="180">Zuid</button><button class="dir" data-v="270">West</button></div>
+      <div class="row">
+        <label>Vrije kijkhoek<select id="view"><option value="180">180° · open</option><option value="150">150°</option><option value="120" selected>120°</option><option value="90">90° · diep balkon</option><option value="60">60° · smal</option></select></label>
+        <label>Minimale zonhoogte<select id="minAlt"><option value="0">0° · vrije horizon</option><option value="5">5°</option><option value="10" selected>10° · bebouwing</option><option value="20">20°</option><option value="30">30°</option></select></label>
+      </div>
+      <button id="today" class="primary">Gebruik vandaag</button>
+      <div style="height:10px"></div>
+      <button id="refreshUv" class="ghost" style="width:100%">Vernieuw UV-data</button>
+      <p class="source" style="margin-top:10px">UV-bron: Open‑Meteo Air Quality API, gebaseerd op Copernicus Atmosphere Monitoring Service (CAMS). De app vraagt de uurlijkse UV-index op voor de coördinaten van jouw adres. Geen API-key nodig.</p>
+    </section>
+
+    <section>
+      <div class="metrics">
+        <div class="metric"><div class="k">Directe balkonzon</div><div id="sunDuration" class="v">—</div><div id="sunWindowsCount" class="s">—</div></div>
+        <div class="metric"><div class="k">Eerste zon</div><div id="firstSun" class="v">—</div><div id="lastSun" class="s">—</div></div>
+        <div class="metric"><div class="k">UV nu</div><div id="uvNow" class="v">—</div><div id="uvNowMeta" class="s">—</div><div id="uvRisk" class="uvbadge">—</div></div>
+        <div class="metric"><div class="k">UV tijdens balkonzon</div><div id="uvBalcony" class="v">—</div><div id="uvBalconyMeta" class="s">—</div></div>
+      </div>
+
+      <div class="card section">
+        <div class="sectionHead"><div><h2>Zonvensters</h2><div id="geomNote" class="status">Geometrische berekening</div></div><span id="directionPill" class="pill">Zuid</span></div>
+        <div id="windows" class="windows"></div>
+        <div style="height:12px"></div>
+        <div id="timeline" class="timeline"></div><div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      </div>
+
+      <div class="card section">
+        <div class="sectionHead"><div><h2>UV-index voor jouw locatie</h2><div id="uvStatus" class="status">Data laden…</div></div><span id="uvPeakBadge" class="pill">Piek —</span></div>
+        <div id="uvAdvice" class="callout">UV-data wordt geladen.</div>
+        <div style="height:12px"></div>
+        <div id="uvChart" class="uvchart"></div>
+        <div class="ticks"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+        <div class="legend"><span><i></i>UV per uur</span><span class="bal"><i></i>uur overlapt met balkonzon</span></div>
+        <p class="source">De UV-index is een model-/forecastwaarde en kan door wolken en lokale omstandigheden veranderen. Voor de gekozen datum gebruikt de app de uurlijkse waarden die de API beschikbaar stelt.</p>
+      </div>
+    </section>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id),rad=Math.PI/180;
+let ranges=[],uvRows=[],selectedAddress='';
+const pad=n=>String(n).padStart(2,'0');
+function ymdLocal(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
+function selectedDate(){const v=$('date').value;if(!v)return new Date();const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d,12,0,0)}
+function dayOfYear(date){const start=new Date(date.getFullYear(),0,0),diff=date-start+(start.getTimezoneOffset()-date.getTimezoneOffset())*60000;return Math.floor(diff/86400000)}
+function solarPosition(date,lat,lon){const n=dayOfYear(date),hour=date.getHours()+date.getMinutes()/60+date.getSeconds()/3600,g=2*Math.PI/365*(n-1+(hour-12)/24),eq=229.18*(.000075+.001868*Math.cos(g)-.032077*Math.sin(g)-.014615*Math.cos(2*g)-.040849*Math.sin(2*g)),dec=.006918-.399912*Math.cos(g)+.070257*Math.sin(g)-.006758*Math.cos(2*g)+.000907*Math.sin(2*g)-.002697*Math.cos(3*g)+.00148*Math.sin(3*g),tz=-date.getTimezoneOffset()/60;let tst=hour*60+eq+4*lon-60*tz;tst=((tst%1440)+1440)%1440;let ha=tst/4-180;if(ha<-180)ha+=360;const hr=ha*rad,lr=lat*rad,cz=Math.sin(lr)*Math.sin(dec)+Math.cos(lr)*Math.cos(dec)*Math.cos(hr),zen=Math.acos(Math.max(-1,Math.min(1,cz))),alt=90-zen/rad;let az=Math.atan2(Math.sin(hr),Math.cos(hr)*Math.sin(lr)-Math.tan(dec)*Math.cos(lr))/rad+180;return{alt,az:(az+360)%360}}
+function diff(a,b){return Math.abs(((a-b+540)%360)-180)}
+function dirName(d){return ['Noord','NO','Oost','ZO','Zuid','ZW','West','NW'][Math.round(d/45)%8]}
+function fmt(m){if(m>=1440)return'24:00';return `${pad(Math.floor(m/60))}:${pad(Math.round(m%60))}`}
+function dur(m){const h=Math.floor(m/60),x=m%60;return h?`${h} u${x?` ${x} min`:''}`:`${x} min`}
+function uvRisk(v){if(v==null||!Number.isFinite(v))return['geen data','Geen UV-waarde beschikbaar.'];if(v<3)return['laag','UV 0–2: lage zonkracht.'];if(v<6)return['matig','UV 3–5: bescherm huid en ogen als je langere tijd buiten bent.'];if(v<8)return['hoog','UV 6–7: hoge zonkracht; goede bescherming is belangrijk.'];if(v<11)return['zeer hoog','UV 8–10: zeer hoge zonkracht; beperk onbeschermde blootstelling.'];return['extreem','UV 11+: extreem hoge zonkracht.']}
+function computeSun(){const lat=+$('lat').value,lon=+$('lon').value,facing=+$('orientation').value,view=+$('view').value,minAlt=+$('minAlt').value,base=selectedDate();$('dirLabel').textContent=`${facing}° · ${dirName(facing)}`;$('directionPill').textContent=dirName(facing);if(!Number.isFinite(lat)||!Number.isFinite(lon)){return}const pts=[];for(let m=0;m<1440;m+=5){const d=new Date(base.getFullYear(),base.getMonth(),base.getDate(),Math.floor(m/60),m%60);const s=solarPosition(d,lat,lon);pts.push([m,s.alt>=minAlt&&diff(s.az,facing)<=view/2])}ranges=[];let st=null;pts.forEach((p,i)=>{if(p[1]&&st===null)st=p[0];if(st!==null&&(!p[1]||i===pts.length-1)){ranges.push([st,p[1]&&i===pts.length-1?1440:p[0]]);st=null}});const total=ranges.reduce((a,r)=>a+r[1]-r[0],0);$('sunDuration').textContent=total?dur(total):'0 min';$('sunWindowsCount').textContent=ranges.length?`${ranges.length} zonvenster${ranges.length>1?'s':''}`:'Geen directe zon';$('firstSun').textContent=ranges.length?fmt(ranges[0][0]):'—';$('lastSun').textContent=ranges.length?`tot ${fmt(ranges.at(-1)[1])}`:'Geen directe zon';const w=$('windows');w.innerHTML='';if(!ranges.length)w.innerHTML='<div class="status">Geen directe zon volgens deze instellingen.</div>';else ranges.forEach(r=>{const e=document.createElement('div');e.className='window';e.innerHTML=`<strong>${fmt(r[0])} – ${fmt(r[1])}</strong><span>${dur(r[1]-r[0])}</span>`;w.appendChild(e)});const tl=$('timeline');tl.innerHTML='';ranges.forEach(r=>{const b=document.createElement('div');b.className='sunbar';b.style.left=`${r[0]/1440*100}%`;b.style.width=`${(r[1]-r[0])/1440*100}%`;tl.appendChild(b)});renderUv()}
+function parseLocalApiTime(s){const m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],0):new Date(s)}
+async function loadUv(){const lat=+$('lat').value,lon=+$('lon').value;if(!Number.isFinite(lat)||!Number.isFinite(lon))return;$('dataState').textContent='UV-data laden…';$('sourceDot').style.background='#b57b00';$('uvStatus').textContent='Open‑Meteo/CAMS wordt geladen…';try{const url=`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&hourly=uv_index,uv_index_clear_sky&timezone=Europe%2FAmsterdam&past_days=1&forecast_days=7`;const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json(),times=data.hourly?.time||[],vals=data.hourly?.uv_index||[],clear=data.hourly?.uv_index_clear_sky||[];uvRows=times.map((t,i)=>{const d=parseLocalApiTime(t);return{date:d,day:ymdLocal(d),minute:d.getHours()*60+d.getMinutes(),uv:Number(vals[i]),clear:Number(clear[i])}}).filter(x=>Number.isFinite(x.uv));$('dataState').textContent='UV-data actueel';$('sourceDot').style.background='var(--green)';renderUv()}catch(e){console.error(e);uvRows=[];$('dataState').textContent='UV-bron niet bereikbaar';$('sourceDot').style.background='var(--red)';$('uvStatus').textContent='Open‑Meteo kon niet worden bereikt.';$('uvAdvice').textContent='De zonuren blijven werken. Controleer je internetverbinding en probeer “Vernieuw UV-data” opnieuw.';renderUv()}}
+function renderUv(){const target=ymdLocal(selectedDate()),rows=uvRows.filter(r=>r.day===target),chart=$('uvChart');chart.innerHTML='';if(!rows.length){$('uvNow').textContent='—';$('uvNowMeta').textContent='Geen waarde';$('uvRisk').textContent='—';$('uvBalcony').textContent='—';$('uvBalconyMeta').textContent='Geen UV-data';$('uvPeakBadge').textContent='Piek —';if(uvRows.length){const days=[...new Set(uvRows.map(r=>r.day))];$('uvStatus').textContent=`UV beschikbaar van ${days[0]} t/m ${days.at(-1)}.`;$('uvAdvice').textContent='Voor deze datum is geen UV-forecast in de huidige API-respons beschikbaar. De geometrische balkonzon wordt wel berekend.'}return}const peak=rows.reduce((a,b)=>b.uv>a.uv?b:a),rr=uvRisk(peak.uv);$('uvPeakBadge').textContent=`Piek ${peak.uv.toFixed(1)} · ${fmt(peak.minute)}`;$('uvStatus').textContent=`${rows.length} uurlijkse waarden · ${selectedAddress||`${(+$('lat').value).toFixed(4)}, ${(+$('lon').value).toFixed(4)}`}`;$('uvAdvice').textContent=rr[1];
+const now=new Date(),isToday=target===ymdLocal(now);let nowRow=null;if(isToday)nowRow=rows.reduce((best,r)=>Math.abs(r.date-now)<Math.abs(best.date-now)?r:best,rows[0]);else nowRow=peak;const nowRisk=uvRisk(nowRow.uv);$('uvNow').textContent=nowRow.uv.toFixed(1);$('uvNowMeta').textContent=isToday?`rond ${fmt(nowRow.minute)}`:`piek op gekozen dag`;$('uvRisk').textContent=nowRisk[0];
+const overlap=rows.filter(r=>ranges.some(w=>r.minute>=w[0]&&r.minute<w[1]));if(overlap.length){const p=overlap.reduce((a,b)=>b.uv>a.uv?b:a);$('uvBalcony').textContent=p.uv.toFixed(1);$('uvBalconyMeta').textContent=`hoogst rond ${fmt(p.minute)}`}else{$('uvBalcony').textContent='—';$('uvBalconyMeta').textContent=ranges.length?'Geen uur-overlap':'Geen directe balkonzon'}
+const max=Math.max(1,...rows.map(r=>r.uv));rows.forEach(r=>{const b=document.createElement('div');b.className='uvbar';if(ranges.some(w=>r.minute>=w[0]&&r.minute<w[1]))b.classList.add('onbalcony');b.style.height=`${Math.max(1,r.uv/max*100)}%`;b.title=`${fmt(r.minute)} · UV ${r.uv.toFixed(1)}${Number.isFinite(r.clear)?` · onbewolkt ${r.clear.toFixed(1)}`:''}`;chart.appendChild(b)})}
+function parseWktPoint(wkt){const m=String(wkt||'').match(/POINT\s*\(\s*([\-\d.]+)\s+([\-\d.]+)\s*\)/i);return m?{lon:+m[1],lat:+m[2]}:null}
+function applyAddressDoc(doc){const p=parseWktPoint(doc.centroide_ll);if(!p||!Number.isFinite(p.lat)||!Number.isFinite(p.lon)){$('addressStatus').textContent='Geen bruikbare coördinaten in dit resultaat.';$('addressStatus').className='status error';return}$('lat').value=p.lat.toFixed(6);$('lon').value=p.lon.toFixed(6);selectedAddress=doc.weergavenaam||$('address').value.trim();$('address').value=selectedAddress;$('addressStatus').textContent=`Gekozen: ${selectedAddress}`;$('addressStatus').className='status ok';$('addressResults').innerHTML='';computeSun();loadUv()}
+async function findAddress(){const q=$('address').value.trim(),box=$('addressResults');box.innerHTML='';if(q.length<3){$('addressStatus').textContent='Vul minimaal 3 tekens in.';$('addressStatus').className='status error';return}$('addressStatus').textContent='Adres zoeken…';$('addressStatus').className='status';try{const url='https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q='+encodeURIComponent(q)+'&fq=type:adres&rows=5';const r=await fetch(url,{headers:{Accept:'application/json'}});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json(),docs=data.response?.docs||[];if(!docs.length){$('addressStatus').textContent='Geen adres gevonden. Voeg huisnummer en plaats toe.';$('addressStatus').className='status error';return}$('addressStatus').textContent=docs.length===1?'Adres gevonden.':'Kies het juiste adres:';docs.forEach(doc=>{const b=document.createElement('button');b.type='button';b.className='addressResult';b.textContent=doc.weergavenaam||q;b.addEventListener('click',()=>applyAddressDoc(doc));box.appendChild(b)});if(docs.length===1)applyAddressDoc(docs[0])}catch(e){console.error(e);$('addressStatus').textContent='PDOK kon niet worden bereikt. Vul eventueel de coördinaten handmatig in.';$('addressStatus').className='status error'}}
+function setToday(){const d=new Date();$('date').value=ymdLocal(d);computeSun();loadUv()}
+['orientation','view','minAlt'].forEach(id=>{$(id).addEventListener('input',computeSun);$(id).addEventListener('change',computeSun)});['lat','lon'].forEach(id=>{$(id).addEventListener('change',()=>{selectedAddress='';computeSun();loadUv()})});$('date').addEventListener('change',()=>{computeSun();renderUv()});document.querySelectorAll('.dir').forEach(b=>b.addEventListener('click',()=>{$('orientation').value=b.dataset.v;computeSun()}));$('today').addEventListener('click',setToday);$('refreshUv').addEventListener('click',loadUv);$('searchAddress').addEventListener('click',findAddress);$('address').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();findAddress()}});setToday();
+
+let deferredInstallPrompt=null;
+const installBtn=document.getElementById('installApp');
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;installBtn.style.display='inline-block'});
+installBtn.addEventListener('click',async()=>{
+  if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;installBtn.style.display='none';return}
+  const isiOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(isiOS) alert('Tik in Safari op Deel en kies daarna “Zet op beginscherm”.');
+  else alert('Open het browsermenu en kies “App installeren” of “Toevoegen aan beginscherm”.');
+});
+if(/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone){installBtn.style.display='inline-block'}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error))}
+</script>
+</body>
+</html>
